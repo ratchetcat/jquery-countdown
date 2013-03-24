@@ -6,17 +6,17 @@ The jquery-countdown plugin:
    and a given future Date specified in the elements on which the plugin is initialized.
 
 2. Emits the following events:
-   countdown.update - emitted if the milliseconds until the future Date are less than the epoch milliseconds of the
+   - countdown.update - emitted if the milliseconds until the future Date are less than the epoch milliseconds of the
                       current Date.
 
-   countdown.end    - emitted if the milliseconds until the future Date are equal to or greater than the epoch
+   - countdown.end    - emitted if the milliseconds until the future Date are equal to or greater than the epoch
                       milliseconds of the current Date.
 
 3. Executes the following callbacks ( which receive references to both element and milliseconds remaining ):
-   onUpdate         - executed if the milliseconds until the future Date are less than the epoch milliseconds of the
+   - onUpdate         - executed if the milliseconds until the future Date are less than the epoch milliseconds of the
                       current Date.
 
-   onEnd            - executed if the milliseconds until the future Date are equal to or greater than the epoch
+   - onEnd            - executed if the milliseconds until the future Date are equal to or greater than the epoch
                       milliseconds of the current Date.
 
 Usage

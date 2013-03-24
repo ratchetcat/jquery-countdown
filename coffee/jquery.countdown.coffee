@@ -25,25 +25,25 @@ Usage
 
 You should have one or more elements in which a valid ISO8601 Date is specified, like so:
 
-  <p>Sun Mar 24 2013 11:43:28 GMT-0400 (EDT)</p>
+        <p>Sun Mar 24 2013 11:43:28 GMT-0400 (EDT)</p>
 
 You may initialize this plugin on those elements using the following jQuery:
 
-  $('p').countdown();
+        $('p').countdown();
 
 To bind to events on those elements:
 
-  $('p').bind("countdown.update", function() { $(this).css("background-color", "#ffc" ); });
+        $('p').bind("countdown.update", function() { $(this).css("background-color", "#ffc" ); });
 
-  $('p').bind("countdown.end", function() { $(this).css("background-color", "#f66" ); });
+        $('p').bind("countdown.end", function() { $(this).css("background-color", "#f66" ); });
 
 To initialize with custom callbacks and a custom interval:
 
-  $('p').countdown({
-    onUpdate: function( el, remainingMilliseconds ) { el.css("background-color", "#ffc"); },
-    onEnd: function( el, remainingMilliseconds ) { el.css("background-color", "#f66"); },
-    interval: 10000
-  });
+        $('p').countdown({
+                onUpdate: function( el, remainingMilliseconds ) { el.css("background-color", "#ffc"); },
+                onEnd: function( el, remainingMilliseconds ) { el.css("background-color", "#f66"); },
+                interval: 10000
+        });
 
 License
 =======

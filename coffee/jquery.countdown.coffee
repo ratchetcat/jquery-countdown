@@ -107,10 +107,10 @@ $.fn.extend
 
       update = ->
         parsedDate = settings.parseDateTime( text )
-        console?.log parsedDate
-
         remainingMilliseconds = millisecondsToEnd( parsedDate )
 
+        # if remainingMilliseconds are less than interval or parsedDate has passed, trigger end event and execute onEnd
+        # otherwise, trigger update event, execute on Update, and reschedule
         if ( ( Math.abs( remainingMilliseconds ) < settings.interval ) || ( remainingMilliseconds > 0 ) )
           el.trigger( settings.eventPrefix + "end", el )
           settings.onEnd( el, remainingMilliseconds )

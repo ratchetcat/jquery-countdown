@@ -1,48 +1,54 @@
 ###
-jQuery-Countdown
+jquery-countdown
+================
 
-This plugin continuously measures the milliseconds between the current Date ( according to the browser ) and
-a given future Date specified in the elements on which the plugin is initialized.
+The jquery-countdown plugin:
+1. Continuously measures the milliseconds between the current Date ( according to the browser )
+   and a given future Date specified in the elements on which the plugin is initialized.
 
-The interval at which this measurement occurs is configurable. The default interval is 5000ms ( 5 seconds ).
-Note that the interval time will vary somewhat depending on the browser executing the code.
+2. Emits the following events:
+   countdown.update - emitted if the milliseconds until the future Date are less than the epoch milliseconds of the
+                      current Date.
 
-Each time the measurement is taken, the plugin will emit one of two events for each element being measured:
-  countdown.update - The given future Date is still in the future.
-  countdown.end    - The given future Date is equal to the current Date ( or equal to past Dates ).
+   countdown.end    - emitted if the milliseconds until the future Date are equal to or greater than the epoch
+                      milliseconds of the current Date.
 
-Additionally, the plugin accepts two callbacks on initialization:
-  onUpdate( el, remainingMilliseconds ) - Executed when the given future Date is still in the future.
-  onEnd( el, remainingMilliseconds )    - Executed when the given future Date is equal to the current Date
-                                          ( or equal to past Dates )
+3. Executes the following callbacks ( which receive references to both element and milliseconds remaining ):
+   onUpdate         - executed if the milliseconds until the future Date are less than the epoch milliseconds of the
+                      current Date.
 
-Note that each callback receives both a reference to the element in which a future Date is specified, and the number
-of remaining milliseconds.
+   onEnd            - executed if the milliseconds until the future Date are equal to or greater than the epoch
+                      milliseconds of the current Date.
 
-Usage:
-  You should have one or more elements in which a valid ISO8601 Date is specified, like so:
+Usage
+=====
+
+You should have one or more elements in which a valid ISO8601 Date is specified, like so:
 
   <p>Sun Mar 24 2013 11:43:28 GMT-0400 (EDT)</p>
 
-  You may initialize this plugin on those elements using the following jQuery:
+You may initialize this plugin on those elements using the following jQuery:
+
   $('p').countdown();
 
-  To bind to events on those elements:
+To bind to events on those elements:
 
   $('p').bind("countdown.update", function() { $(this).css("background-color", "#ffc" ); });
+
   $('p').bind("countdown.end", function() { $(this).css("background-color", "#f66" ); });
 
-  To initialize with custom callbacks and a custom interval:
+To initialize with custom callbacks and a custom interval:
+
   $('p').countdown({
     onUpdate: function( el, remainingMilliseconds ) { el.css("background-color", "#ffc"); },
     onEnd: function( el, remainingMilliseconds ) { el.css("background-color", "#f66"); },
     interval: 10000
   });
 
-License:
+License
+=======
 
-This plugin is copyright 2013 by Jon Fuller and is released under the MIT license.
-
+This plugin was written in 2013 by Jon Fuller and is released under the MIT license.
 ###
 
 # reference jQuery

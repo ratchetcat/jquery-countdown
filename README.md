@@ -24,7 +24,7 @@ Usage
 
 You should have one or more elements in which a valid Date ( see important notes below ) is specified, like so:
 
-        <span>2011/04/01</span>
+        <span>2013/04/11 04:30</span>
 
 You may initialize this plugin on those elements using the following jQuery:
 

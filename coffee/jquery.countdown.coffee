@@ -79,7 +79,7 @@ $.fn.extend
         # example: 2013-03-24T14:26:54
         # example: 2013-03-24 14:26:54
         temp = ('' + input).replace(/-/g,"/").replace(/[TZ]/g," ")
-        return new Date( temp )
+        new Date( temp )
     };
     settings = $.extend defaults, options
 
@@ -90,6 +90,14 @@ $.fn.extend
     return @each ()->
       el = $(@)
       text = el.text()
+
+      # return immediately if parsedDate is invalid
+      try
+        parsedDate = settings.parseDateTime( text )
+        throw text + " is not valid DateTime." if ( parsedDate.toString().match( /Invalid/ ) )
+      catch error
+        parsedDate = null
+      return if parsedDate == null
 
 #      updateListener = setInterval(
 #        ->
@@ -106,7 +114,6 @@ $.fn.extend
 #      )
 
       update = ->
-        parsedDate = settings.parseDateTime( text )
         remainingMilliseconds = millisecondsToEnd( parsedDate )
 
         # if remainingMilliseconds are less than interval or parsedDate has passed, trigger end event and execute onEnd

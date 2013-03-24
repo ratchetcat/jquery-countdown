@@ -6,11 +6,9 @@
   <title>jQuery Countdown Plugin</title>
 </head>
 <body>
-<pre>
-    This page serves as an example of how jquery-countdown may be applied.
-
-    The dynamic target datetimes below are generated using the moment.js library <em>without</em> timezone information.
-</pre>
+<h1>jQuery-Countdown Example</h1>
+<p>This page serves as an example of how jquery-countdown may be used.</p>
+<p>The dynamic target datetimes below are generated using the <a href="http://momentjs.com/">moment.js</a> library.</p>
 
 <script type="text/javascript" charset="utf-8">
   document.getElementsByTagName('body')[0].className += ' js-enabled';
@@ -21,11 +19,15 @@
 
 <script>
     (function($) {
-        var target_date_a = moment().add('minutes', 1).format("YYYY-MM-DDTHH:mm:ss");
-        var target_date_b = moment().add('minutes', 1).format("YYYY-MM-DD HH:mm:ss");
+        dates = [];
+        dates.push( moment().add('minutes', 1).format("YYYY-MM-DDTHH:mm:ss") );
+        dates.push( moment().add('minutes', 1).format("YYYY-MM-DD HH:mm:ss") );
+        dates.push( moment().add('hours', 1).format("YYYY-MM-DD HH:mm:ss") );
+        dates.push( moment().add('days', 1).add('hours', 10).format("YYYY-MM-DD HH:mm:ss") );
 
-        $('body').append( "<p class='target-date'>" + target_date_a + "</p>" );
-        $('body').append( "<p class='target-date'>" + target_date_b + "</p>" );
+        for( var i = 0; i < dates.length; i++ ) {
+            $("body").append( "<p class='target-date'>" + dates[i] + "</p>");
+        }
 
         // apply jquery-countdown
         $('p.target-date').countdown({

@@ -44,21 +44,16 @@ To initialize with custom callbacks and a custom interval:
                 interval: 10000
         });
 
-Important Notes
-===============
+While this plugin should correctly parse most datetime strings in the format YYYY-MM-DD HH:mm:ss, you may pass a custom
+datetime parsing function into the initializer if your datetime strings require special handling or to take advantage
+of third-parting parsing libraries.
 
-
-
-This plugin parses Date strings. The implementation of Date string parsing is browser-dependent.
-
-Across most ( all? ) browsers, the behavior of such parsing will be the same if a Date string is specified in this way:
-
-YYYY/MM/DD HH:MM:SSZ
-
-Where YYYY is the four-digit year, MM is the two-digit month, DD is the two-digit day, etc.
-
-This is explained in greater detail in an article posted to the Dygraphs ( visualization library ) blog here:
-http://blog.dygraphs.com/2012/03/javascript-and-dates-what-mess.html
+        $('span').countdown({
+                parseDateTime: function( input ) {
+                    var temp = ('' + input).replace(/-/g,"/").replace(/[TZ]/g," ");
+                    return new Date( temp );
+                }
+        });
 
 License
 =======

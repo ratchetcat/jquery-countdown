@@ -23,26 +23,37 @@ The jquery-countdown plugin:
 Usage
 =====
 
-You should have one or more elements in which a valid ISO8601 Date is specified, like so:
+You should have one or more elements in which a valid Date ( see important notes below ) is specified, like so:
 
-        <p>Sun Mar 24 2013 11:43:28 GMT-0400 (EDT)</p>
+        <span>2011/04/01</span>
 
 You may initialize this plugin on those elements using the following jQuery:
 
-        $('p').countdown();
+        $('span').countdown();
 
 To bind to events on those elements:
 
-        $('p').bind("countdown.update", function() { $(this).css("background-color", "#ffc" ); });
+        $('span').bind("countdown.update", function() { $(this).css("background-color", "#ffc" ); });
 
-        $('p').bind("countdown.end", function() { $(this).css("background-color", "#f66" ); });
+        $('span').bind("countdown.end", function() { $(this).css("background-color", "#f66" ); });
 
 To initialize with custom callbacks and a custom interval:
 
-        $('p').countdown({
+        $('span').countdown({
                 onUpdate: function( el, remainingMilliseconds ) { el.css("background-color", "#ffc"); },
                 onEnd: function( el, remainingMilliseconds ) { el.css("background-color", "#f66"); },
                 interval: 10000
+        });
+
+While this plugin should correctly parse most datetime strings in the format YYYY-MM-DD HH:mm:ss, you may pass a custom
+datetime parsing function into the initializer if your datetime strings require special handling or to take advantage
+of third-parting parsing libraries.
+
+        $('span').countdown({
+                parseDateTime: function( input ) {
+                    var temp = ('' + input).replace(/-/g,"/").replace(/[TZ]/g," ");
+                    return new Date( temp );
+                }
         });
 
 License

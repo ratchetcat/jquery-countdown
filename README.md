@@ -54,6 +54,12 @@ of third-parting parsing libraries.
                 }
         });
 
+
+Compatibility
+=============
+jQuery-countdown was tested with jQuery 1.5.2 and 1.9.1. It may work in earlier versions. YMMV.
+
+
 License
 =======
 

@@ -6,29 +6,35 @@
   <title>jQuery Countdown Plugin</title>
 </head>
 <body>
-<p>Elements on which jQuery Countdown is applied will flash as the time between now and the target date is measured.</p>
-<p>When the target date is reached ( or passed ), the elements will be highlighted in red.</p>
+<pre>
+    This page serves as an example of how jquery-countdown may be applied.
+
+    The dynamic target datetimes below are generated using the moment.js library <em>without</em> timezone information.
+</pre>
 
 <script type="text/javascript" charset="utf-8">
   document.getElementsByTagName('body')[0].className += ' js-enabled';
 </script>
 <script src="http://code.jquery.com/jquery-1.9.1.min.js"></script>
+<script src="http://cdnjs.cloudflare.com/ajax/libs/moment.js/2.0.0/moment.min.js"></script>
 <script src="js/jquery.countdown.js"></script>
 
 <script>
     (function($) {
-        // dynamically add date to body
-        var dynamic_date = new Date( new Date().getTime() + 60000 );
-        $('body').append("<p id=target-date>" + dynamic_date + "</p>");
+        var target_date_a = moment().add('minutes', 1).format("YYYY-MM-DDTHH:mm:ss");
+        var target_date_b = moment().add('minutes', 1).format("YYYY-MM-DD HH:mm:ss");
 
-        // start countdown
-        $('p#target-date').countdown({
+        $('body').append( "<p class='target-date'>" + target_date_a + "</p>" );
+        $('body').append( "<p class='target-date'>" + target_date_b + "</p>" );
+
+        // apply jquery-countdown
+        $('p.target-date').countdown({
             onEnd: function( el, remainingMilliseconds ) { el.css("background-color", "#f66"); },
             onUpdate: function( el, remainingMilliseconds ) {
                 el.css("background-color", "#ffc");
                 setTimeout(function() { el.css("background-color", "transparent"); }, 1000);
             },
-            interval:1000
+            interval:2000
         });
     })(jQuery);
 </script>

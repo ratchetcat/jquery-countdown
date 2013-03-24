@@ -63,6 +63,12 @@ $.fn.extend
       interval: 5000
       onEnd: (el, remainingMilliseconds)->
       onUpdate: (el, remainingMilliseconds)->
+      parseDateTime: ( input ) ->
+        # parse datetime consistently across browsers...
+        # example: 2013-03-24T14:26:54
+        # example: 2013-03-24 14:26:54
+        temp = ('' + input).replace(/-/g,"/").replace(/[TZ]/g," ")
+        return new Date( temp )
     };
     settings = $.extend defaults, options
 
@@ -89,7 +95,10 @@ $.fn.extend
 #      )
 
       update = ->
-        remainingMilliseconds = millisecondsToEnd( new Date( text ) )
+        parsedDate = settings.parseDateTime( text )
+        console?.log parsedDate
+
+        remainingMilliseconds = millisecondsToEnd( parsedDate )
 
         if ( ( Math.abs( remainingMilliseconds ) < settings.interval ) || ( remainingMilliseconds > 0 ) )
           el.trigger( settings.eventPrefix + "end", el )

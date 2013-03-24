@@ -27,25 +27,25 @@ Usage
 
 You should have one or more elements in which a valid ISO8601 Date is specified, like so:
 
-  <p>Sun Mar 24 2013 11:43:28 GMT-0400 (EDT)</p>
+        <p>Sun Mar 24 2013 11:43:28 GMT-0400 (EDT)</p>
 
 You may initialize this plugin on those elements using the following jQuery:
 
-  $('p').countdown();
+        $('p').countdown();
 
 To bind to events on those elements:
 
-  $('p').bind("countdown.update", function() { $(this).css("background-color", "#ffc" ); });
+        $('p').bind("countdown.update", function() { $(this).css("background-color", "#ffc" ); });
 
-  $('p').bind("countdown.end", function() { $(this).css("background-color", "#f66" ); });
+        $('p').bind("countdown.end", function() { $(this).css("background-color", "#f66" ); });
 
 To initialize with custom callbacks and a custom interval:
 
-  $('p').countdown({
-    onUpdate: function( el, remainingMilliseconds ) { el.css("background-color", "#ffc"); },
-    onEnd: function( el, remainingMilliseconds ) { el.css("background-color", "#f66"); },
-    interval: 10000
-  });
+        $('p').countdown({
+                onUpdate: function( el, remainingMilliseconds ) { el.css("background-color", "#ffc"); },
+                onEnd: function( el, remainingMilliseconds ) { el.css("background-color", "#f66"); },
+                interval: 10000
+        });
 
 License
 =======
@@ -66,7 +66,12 @@ This plugin was written in 2013 by Jon Fuller and is released under the MIT lice
         eventPrefix: 'countdown.',
         interval: 5000,
         onEnd: function(el, remainingMilliseconds) {},
-        onUpdate: function(el, remainingMilliseconds) {}
+        onUpdate: function(el, remainingMilliseconds) {},
+        parseDateTime: function(input) {
+          var temp;
+          temp = ('' + input).replace(/-/g, "/").replace(/[TZ]/g, " ");
+          return new Date(temp);
+        }
       };
       settings = $.extend(defaults, options);
       millisecondsToEnd = function(date, options) {
@@ -80,8 +85,12 @@ This plugin was written in 2013 by Jon Fuller and is released under the MIT lice
         el = $(this);
         text = el.text();
         update = function() {
-          var remainingMilliseconds;
-          remainingMilliseconds = millisecondsToEnd(new Date(text));
+          var parsedDate, remainingMilliseconds;
+          parsedDate = settings.parseDateTime(text);
+          if (typeof console !== "undefined" && console !== null) {
+            console.log(parsedDate);
+          }
+          remainingMilliseconds = millisecondsToEnd(parsedDate);
           if ((Math.abs(remainingMilliseconds) < settings.interval) || (remainingMilliseconds > 0)) {
             el.trigger(settings.eventPrefix + "end", el);
             return settings.onEnd(el, remainingMilliseconds);

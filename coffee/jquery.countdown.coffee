@@ -1,5 +1,5 @@
-jquery-countdown
-================
+###
+jQuery-Countdown
 
 This plugin continuously measures the milliseconds between the current Date ( according to the browser ) and
 a given future Date specified in the elements on which the plugin is initialized.
@@ -42,3 +42,59 @@ Usage:
 License:
 
 This plugin is copyright 2013 by Jon Fuller and is released under the MIT license.
+
+###
+
+# reference jQuery
+$ = jQuery
+
+# Adds plugin object to jQuery
+$.fn.extend
+  countdown: (options) ->
+
+    defaults = {
+      eventPrefix: 'countdown.'
+      interval: 5000
+      onEnd: (el, remainingMilliseconds)->
+      onUpdate: (el, remainingMilliseconds)->
+    };
+    settings = $.extend defaults, options
+
+    millisecondsToEnd = ( date, options )->
+      return 0 if !(date instanceof Date)
+      return new Date().getTime() - date
+
+    return @each ()->
+      el = $(@)
+      text = el.text()
+
+#      updateListener = setInterval(
+#        ->
+#          date = new Date( text )
+#          if ( ( Math.abs(remainingMilliseconds(date)) < settings.interval ) || ( remainingMilliseconds( date ) > 0 ) )
+#            clearInterval( updateListener )
+#            el.text( text )
+#            el.trigger( "end" )
+#          else
+#            el.text( text + " (" + remainingMilliseconds(date) + ")" )
+#            el.trigger( "update" )
+#        ,
+#        settings.interval
+#      )
+
+      update = ->
+        remainingMilliseconds = millisecondsToEnd( new Date( text ) )
+
+        if ( ( Math.abs( remainingMilliseconds ) < settings.interval ) || ( remainingMilliseconds > 0 ) )
+          el.trigger( settings.eventPrefix + "end", el )
+          settings.onEnd( el, remainingMilliseconds )
+        else
+          el.trigger( settings.eventPrefix + "update", el )
+          settings.onUpdate( el, remainingMilliseconds )
+          setTimeout(
+            ->
+              update()
+            , settings.interval
+          )
+
+      update()

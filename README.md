@@ -45,7 +45,7 @@ Or initialize the plugin with custom callbacks and a custom interval:
 
 While this plugin should correctly parse most datetime strings in the format YYYY-MM-DD HH:mm:ss, you may pass a custom
 datetime parsing function into the initializer if your datetime strings require special handling or to take advantage
-of third-parting parsing libraries.
+of third-party parsing libraries.
 
         $('span').countdown({
                 parseDateTime: function( input ) {

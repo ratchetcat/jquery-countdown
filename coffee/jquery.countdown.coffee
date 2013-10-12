@@ -19,8 +19,8 @@ $.fn.extend
     defaults = {
       eventPrefix: 'countdown.'
       interval: 5000
-      onEnd: (el, remainingMilliseconds)->
-      onUpdate: (el, remainingMilliseconds)->
+      onEnd: (el, remainingMilliseconds, parsedDate)->
+      onUpdate: (el, remainingMilliseconds, parsedDate)->
       parseDateTime: ( input ) ->
         # parse datetime consistently across browsers...
         # example: 2013-03-24T14:26:54
@@ -46,20 +46,6 @@ $.fn.extend
         parsedDate = null
       return if parsedDate == null
 
-#      updateListener = setInterval(
-#        ->
-#          date = new Date( text )
-#          if ( ( Math.abs(remainingMilliseconds(date)) < settings.interval ) || ( remainingMilliseconds( date ) > 0 ) )
-#            clearInterval( updateListener )
-#            el.text( text )
-#            el.trigger( "end" )
-#          else
-#            el.text( text + " (" + remainingMilliseconds(date) + ")" )
-#            el.trigger( "update" )
-#        ,
-#        settings.interval
-#      )
-
       update = ->
         remainingMilliseconds = millisecondsToEnd( parsedDate )
 
@@ -67,10 +53,10 @@ $.fn.extend
         # otherwise, trigger update event, execute on Update, and reschedule
         if ( ( Math.abs( remainingMilliseconds ) < settings.interval ) || ( remainingMilliseconds > 0 ) )
           el.trigger( settings.eventPrefix + "end", el )
-          settings.onEnd( el, remainingMilliseconds )
+          settings.onEnd( el, remainingMilliseconds, parsedDate )
         else
           el.trigger( settings.eventPrefix + "update", el )
-          settings.onUpdate( el, remainingMilliseconds )
+          settings.onUpdate( el, remainingMilliseconds, parsedDate )
           setTimeout(
             ->
               update()

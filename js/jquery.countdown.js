@@ -23,8 +23,8 @@ This plugin was written in 2013 by Jon Fuller and is released under the MIT lice
       defaults = {
         eventPrefix: 'countdown.',
         interval: 5000,
-        onEnd: function(el, remainingMilliseconds) {},
-        onUpdate: function(el, remainingMilliseconds) {},
+        onEnd: function(el, remainingMilliseconds, parsedDate) {},
+        onUpdate: function(el, remainingMilliseconds, parsedDate) {},
         parseDateTime: function(input) {
           var temp;
           temp = ('' + input).replace(/-/g, "/").replace(/[TZ]/g, " ");
@@ -58,10 +58,10 @@ This plugin was written in 2013 by Jon Fuller and is released under the MIT lice
           remainingMilliseconds = millisecondsToEnd(parsedDate);
           if ((Math.abs(remainingMilliseconds) < settings.interval) || (remainingMilliseconds > 0)) {
             el.trigger(settings.eventPrefix + "end", el);
-            return settings.onEnd(el, remainingMilliseconds);
+            return settings.onEnd(el, remainingMilliseconds, parsedDate);
           } else {
             el.trigger(settings.eventPrefix + "update", el);
-            settings.onUpdate(el, remainingMilliseconds);
+            settings.onUpdate(el, remainingMilliseconds, parsedDate);
             return setTimeout(function() {
               return update();
             }, settings.interval);

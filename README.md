@@ -12,7 +12,7 @@ The jquery-countdown plugin:
                       milliseconds of the current Date.
 
 
-- Executes the following callbacks ( which receive references to both element and milliseconds remaining ):
+- Executes the following callbacks ( which receive references to element, milliseconds remaining, and the parsed Date ):
    - onUpdate         - executed if the milliseconds until the future Date are less than the epoch milliseconds of the
                       current Date.
    - onEnd            - executed if the milliseconds until the future Date are equal to or greater than the epoch

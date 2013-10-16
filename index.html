@@ -18,30 +18,37 @@
 <script src="js/jquery.countdown.min.js"></script>
 
 <script>
-    (function($) {
-        dates = [];
-        dates.push( moment().add('minutes', 1).format("YYYY-MM-DDTHH:mm:ss") );
-        dates.push( moment().add('minutes', 1).format("YYYY-MM-DD HH:mm:ss") );
-        dates.push( moment().add('hours', 1).format("YYYY-MM-DD HH:mm:ss") );
-        dates.push( moment().add('days', 1).add('hours', 10).format("YYYY-MM-DD HH:mm:ss") );
+  (function($) {
+    // generate dynamic dates using moment.js
+    dates = [];
+    dates.push( moment().add('minutes', 1).format("YYYY-MM-DDTHH:mm:ss") );
+    dates.push( moment().add('minutes', 1).format("YYYY-MM-DD HH:mm:ss") );
+    dates.push( moment().add('hours', 1).format("YYYY-MM-DD HH:mm:ss") );
+    dates.push( moment().add('days', 1).add('hours', 10).format("YYYY-MM-DD HH:mm:ss") );
+    dates.push( 'Invalid Date' );
 
-        for( var i = 0; i < dates.length; i++ ) {
-            $("body").append( "<p class='target-date'>" + dates[i] + "</p>");
-        }
+    for( var i = 0; i < dates.length; i++ ) {
+        $("body").append( "<p class='target-date'>" + dates[i] + "</p>");
+    }
 
-        // apply jquery-countdown
-        $('p.target-date').countdown({
-            onEnd: function( el, remainingMilliseconds ) { el.css("background-color", "#f66"); },
-            onUpdate: function( el, remainingMilliseconds ) {
-                el.css("background-color", "#ffc");
-                setTimeout(function() { el.css("background-color", "transparent"); }, 1000);
-            },
-            interval:2000
-        });
-    })(jQuery);
+    // apply jquery-countdown plugin
+    $('p.target-date').countdown({
+      onEnd: function( data ) {
+        data.el.css("background-color", "#f66");
+      },
+      onUpdate: function( data ) {
+        data.el.css("background-color", "#ffc");
+        setTimeout(
+          function() {
+            data.el.css("background-color", "transparent");
+          },
+          500
+        );
+      },
+      interval:2000
+    });
+  })(jQuery);
 </script>
-
-<p class="target-date">Invalid target date ( should not be interpreted )</p>
 
 </body>
 </html>

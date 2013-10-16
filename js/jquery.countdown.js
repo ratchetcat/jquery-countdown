@@ -21,10 +21,11 @@ This plugin was written in 2013 by Jon Fuller and is released under the MIT lice
     countdown: function(options) {
       var defaults, millisecondsToEnd, settings;
       defaults = {
-        eventPrefix: 'countdown.',
+        eventPrefix: 'countdown',
         interval: 5000,
-        onEnd: function(el, remainingMilliseconds, parsedDate) {},
-        onUpdate: function(el, remainingMilliseconds, parsedDate) {},
+        onEnd: function(data) {},
+        onUpdate: function(data) {},
+        onError: function(data) {},
         parseDateTime: function(input) {
           var temp;
           temp = ('' + input).replace(/-/g, "/").replace(/[TZ]/g, " ");
@@ -39,32 +40,36 @@ This plugin was written in 2013 by Jon Fuller and is released under the MIT lice
         return new Date().getTime() - date;
       };
       return this.each(function() {
-        var el, parsedDate, text, update;
+        var data, el, parsedDate, text, update;
         el = $(this);
         text = el.text();
+        parsedDate = null;
+        data = {
+          el: el
+        };
         try {
           parsedDate = settings.parseDateTime(text);
           if (parsedDate.toString().match(/Invalid/)) {
-            throw text + " is not valid DateTime.";
+            throw text + " could not be parsed to valid DateTime.";
           }
         } catch (error) {
-          parsedDate = null;
-        }
-        if (parsedDate === null) {
-          return;
+          data.error = error;
+          el.trigger(settings.eventPrefix + ".error", data);
+          settings.onError(data);
+          return false;
         }
         update = function() {
-          var remainingMilliseconds;
-          remainingMilliseconds = millisecondsToEnd(parsedDate);
-          if ((Math.abs(remainingMilliseconds) < settings.interval) || (remainingMilliseconds > 0)) {
-            el.trigger(settings.eventPrefix + "end", el);
-            return settings.onEnd(el, remainingMilliseconds, parsedDate);
+          data.remainingMilliseconds = millisecondsToEnd(parsedDate);
+          data.parsedDate = parsedDate;
+          if ((Math.abs(data.remainingMilliseconds) < settings.interval) || (data.remainingMilliseconds > 0)) {
+            el.trigger(settings.eventPrefix + ".end", data);
+            return settings.onEnd(data);
           } else {
-            el.trigger(settings.eventPrefix + "update", el);
-            settings.onUpdate(el, remainingMilliseconds, parsedDate);
-            return setTimeout(function() {
+            data.timerId = setTimeout(function() {
               return update();
             }, settings.interval);
+            el.trigger(settings.eventPrefix + ".update", data);
+            return settings.onUpdate(data);
           }
         };
         return update();

@@ -43,8 +43,8 @@ Then initialize this plugin on those elements using the following jQuery:
 Finally, bind to events on those elements:
 
         $(document).on("countdown.update", function() { $(this).css("background-color", "#ffc" ); });
-
-        $(document).on("countdown.end", function() { $(this).css("background-color", "#f66" ); });
+        $(document).on("countdown.end",    function() { $(this).css("background-color", "#f66" ); });
+        $(document).on("countdown.error",  function() { $(this).css("background-color", "#c00" ); });
 
 Or initialize the plugin with custom callbacks and a custom interval:
 

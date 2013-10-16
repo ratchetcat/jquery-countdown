@@ -45,6 +45,9 @@
           500
         );
       },
+      onError: function( data ) {
+        data.el.css("background-color", "#c00");
+      },
       interval:2000
     });
   })(jQuery);
